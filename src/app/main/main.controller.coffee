@@ -33,16 +33,32 @@ angular.module "cssAnimationCompleteness"
             strippedRules.push rule
         strippedRules
         
+      getPropertiesFromRule: (rule) ->
+        properties = []
+        for rule in rule.cssRules
+          for style in rule.style
+            if properties.indexOf(style) == -1
+              properties.push style
+        properties
+        
       getRulesForAnimationByName: (className)->
         console.log 'getRulesForAnimationByName: ' + className
         sheet = this.getSheetByName(this.sheetName)
         rules = this.getRulesWithClassName(sheet, className)
-
         rules = this.stripPrefixedRules(rules)
-
-        debugger
         
+        #  test the first
+        #  test the first
+        #  test the first
+        # correctRules = true
+        # 
+        # for rule in rules
+        #   if rule.name != className
+        #     correctRules = false
+        rule = rules[0]
+        properties = this.getPropertiesFromRule(rule)
 
+        debugger;
         true
     }
     completeness.getRulesForAnimationByName('fade')
