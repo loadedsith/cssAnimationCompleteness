@@ -11,7 +11,8 @@ class MainCtrl {
     var completeness = {
       sheetName : 'index.css',
       getSheetByName(name){
-        for (sheet in document.styleSheets) {
+        StyleSheetList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator]          
+        for (let sheet of document.styleSheets) {
           if (sheet.href != null) {
             if (sheet.href.indexOf(name) != -1) {
               return sheet
@@ -21,7 +22,9 @@ class MainCtrl {
       },
       getRulesWithClassName(sheet, className){
         var rules = [];
-        for (rule in sheet.cssRules) {
+
+        CSSRuleList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator]
+        for (let rule of sheet.cssRules) {
           if (rule.name == className) {
             rules.push(rule);
           }
@@ -31,9 +34,9 @@ class MainCtrl {
       stripPrefixedRules (rules) {
         var strippedRules = [];
         var prefixes = ['-webkit-','-ms-','-moz-','-o-'];
-        for (rule in rules){
+        for (var rule of rules){
           var prefixed = false;
-          for (prefix in prefixes){
+          for (var prefix of prefixes){
             if (rule.cssText.indexOf(prefix) != -1){
               prefixed = true
               continue;
@@ -47,8 +50,8 @@ class MainCtrl {
       },
       getPropertiesFromRule(rule) {
         var properties = [];
-        for (rule in rule.cssRules){
-          for (style in rule.style){
+        for (var rule in rule.cssRules){
+          for (var style in rule.style){
             if (properties.indexOf(style) == -1){
               properties.push(style);
             }
@@ -56,20 +59,20 @@ class MainCtrl {
         }
         return properties;
       },
-      getRulesForAnimationByName(className){
+      getRulesForAnimationByName(className) {
         console.log( 'getRulesForAnimationByName: ' + className);
         var sheet = this.getSheetByName(this.sheetName);
         var rules = this.getRulesWithClassName(sheet, className);
         rules = this.stripPrefixedRules(rules);
-        #  test the first
-        #  test the first
-        #  test the first
-        # correctRules = true
-        # 
-        # for rule in rules
-        #   if rule.name != className
-        #     correctRules = false
-        rule = rules[0];
+        //  test the first
+        //  test the first
+        //  test the first
+        // correctRules = true
+        // 
+        // for rule in rules
+        //   if rule.name != className
+        //     correctRules = false
+        var rule = rules[0];
         var properties = this.getPropertiesFromRule(rule);
         debugger;
       }
